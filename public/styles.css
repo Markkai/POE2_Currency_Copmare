@@ -107,7 +107,8 @@ section { margin: 18px auto; max-width: 1080px; padding: 0 24px; }
 }
 .route-card .rc-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .route-card img { width: 34px; height: 34px; }
-.route-card .rc-name { font-weight: 600; }
+.route-card .rc-name { font-weight: 600; display: flex; flex-direction: column; line-height: 1.2; }
+.route-card .rc-en { font-size: 11.5px; color: var(--muted); font-weight: 400; }
 .route-card .rc-cost { font-size: 26px; font-weight: 700; color: var(--gold-soft); }
 .route-card .rc-cost small { font-size: 13px; color: var(--muted); font-weight: 400; }
 .route-card .rc-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
@@ -135,7 +136,9 @@ tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
 
 .cur-cell { display: flex; align-items: center; gap: 10px; }
 .cur-cell img { width: 26px; height: 26px; flex: none; }
+.cur-cell .names { display: flex; flex-direction: column; line-height: 1.25; }
 .cur-cell .cn { font-weight: 500; }
+.cur-cell .en { font-size: 11.5px; color: var(--muted); }
 .row-divine { background: rgba(212, 175, 55, 0.07); }
 .row-divine .cn { color: var(--gold-soft); }
 
@@ -165,8 +168,27 @@ tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
   padding: 16px 18px;
   font-size: 15px;
 }
-.calc-result .big .divines { font-size: 30px; font-weight: 800; color: var(--gold-soft); }
+.calc-result .t-cap { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+.calc-result .totals {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.calc-result .t-item {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.calc-result .t-label { color: var(--muted); font-size: 12.5px; }
+.calc-result .t-val { font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.calc-result .big .divines { color: var(--gold-soft); }
+.calc-result .t-note { color: var(--muted); font-size: 13px; margin-top: 10px; }
 .calc-result .reco { color: var(--muted); font-size: 13px; margin-top: 8px; }
+@media (max-width: 520px) { .calc-result .totals { grid-template-columns: 1fr; } }
 
 .skeleton { color: var(--muted); padding: 20px; }
 

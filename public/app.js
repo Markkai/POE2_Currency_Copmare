@@ -93,7 +93,9 @@ function trendHtml(t) {
 }
 
 function curName(id) {
-  return state.byId.get(id)?.name || id;
+  const c = state.byId.get(id);
+  if (!c) return id;
+  return ZH[id] || c.name;
 }
 
 // ---------- 抓資料 ----------
@@ -169,7 +171,9 @@ function renderHero() {
         ${isBest ? `<span class="badge">${badge || "最划算"}</span>` : ""}
         <div class="rc-head">
           ${cur.image ? `<img src="${cur.image}" alt="" loading="lazy">` : ""}
-          <span class="rc-name">${cur.name}</span>
+          <span class="rc-name">${ZH[cur.id] || cur.name}<small class="rc-en">${
+    ZH[cur.id] ? cur.name : ""
+  }</small></span>
         </div>
         <div class="rc-cost">${fmt(cur.perDivine)} <small>個 / 神聖石</small></div>
         <div class="rc-sub">流動性 ${fmt(cur.volume)} · 7日 ${fmt(cur.trend7d, 1)}%</div>
@@ -231,7 +235,10 @@ function renderBoard() {
           <td>
             <div class="cur-cell">
               ${c.image ? `<img src="${c.image}" alt="" loading="lazy">` : ""}
-              <span class="cn">${c.name}</span>
+              <div class="names">
+                <span class="cn">${ZH[c.id] || c.name}</span>
+                ${ZH[c.id] ? `<span class="en">${c.name}</span>` : ""}
+              </div>
             </div>
           </td>
           <td class="num">${isDivine ? "—" : fmt(c.perDivine)}</td>
@@ -331,17 +338,38 @@ function recalc() {
   const whole = Math.floor(total);
   const remain = total - whole;
 
+  // 同一筆總值換算成三種主流通貨（total 為神聖石單位）
+  const { chaosDV, exaltedDV } = getRef();
+  const exTotal = exaltedDV ? total / exaltedDV : null;
+  const chTotal = chaosDV ? total / chaosDV : null;
+
   res.innerHTML = `
     <div class="big">
-      你的庫存總共值
-      <span class="divines">${fmt(total, 3)}</span> 顆神聖石
-      <div style="color:var(--muted);font-size:13px;margin-top:4px">
+      <div class="t-cap">你的庫存總共可換成 ——</div>
+      <div class="totals">
+        <div class="t-item">
+          <span class="t-label">神聖石 Divine</span>
+          <span class="t-val divines">${fmt(total, 3)}</span>
+        </div>
+        <div class="t-item">
+          <span class="t-label">崇高石 Exalted</span>
+          <span class="t-val">${fmt(exTotal, 1)}</span>
+        </div>
+        <div class="t-item">
+          <span class="t-label">混沌石 Chaos</span>
+          <span class="t-val">${fmt(chTotal, 1)}</span>
+        </div>
+      </div>
+      <div class="t-note">
         ≈ ${whole} 顆神聖石${remain > 0.001 ? `（再加 ${fmt(remain, 3)} 顆的零頭）` : ""}
       </div>
       ${
         bestHold
-          ? `<div class="reco">💡 想換成神聖石的話，優先拿 <b>${bestHold.cur.name}</b> 去換：
-             它是你持有中市場最深(流動性 ${fmt(bestHold.cur.volume)})的通貨，實際成交價差最小。</div>`
+          ? `<div class="reco">💡 想換成神聖石的話，優先拿 <b>${labelOf(
+              bestHold.cur
+            )}</b> 去換：它是你持有中市場最深(流動性 ${fmt(
+              bestHold.cur.volume
+            )})的通貨，實際成交價差最小。</div>`
           : ""
       }
     </div>`;
