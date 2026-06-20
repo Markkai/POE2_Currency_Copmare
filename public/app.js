@@ -328,10 +328,6 @@ function recalc() {
   $("#calcTotal").textContent = fmt(total, 4);
 
   const res = $("#calcResult");
-  if (total <= 0) {
-    res.innerHTML = "";
-    return;
-  }
 
   // 推薦：手上持有中，流動性最高者拿去換神聖石最不吃價差
   const bestHold = parts.slice().sort((a, b) => (b.cur.volume || 0) - (a.cur.volume || 0))[0];
@@ -360,9 +356,13 @@ function recalc() {
           <span class="t-val">${fmt(chTotal, 1)}</span>
         </div>
       </div>
-      <div class="t-note">
-        ≈ ${whole} 顆神聖石${remain > 0.001 ? `（再加 ${fmt(remain, 3)} 顆的零頭）` : ""}
-      </div>
+      ${
+        total > 0
+          ? `<div class="t-note">≈ ${whole} 顆神聖石${
+              remain > 0.001 ? `（再加 ${fmt(remain, 3)} 顆的零頭）` : ""
+            }</div>`
+          : `<div class="t-note">在上方「數量」欄輸入你手上的石頭數量，這裡會即時換算。</div>`
+      }
       ${
         bestHold
           ? `<div class="reco">💡 想換成神聖石的話，優先拿 <b>${labelOf(
