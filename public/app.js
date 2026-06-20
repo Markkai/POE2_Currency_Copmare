@@ -8,6 +8,66 @@ const state = {
 
 const $ = (sel) => document.querySelector(sel);
 
+// 通貨繁體中文對照（依 poe.ninja 的 id）。常見石頭用官方譯名，
+// 部分 POE2 後期專用道具為易懂的描述性翻譯。
+const ZH = {
+  divine: "神聖石",
+  chaos: "混沌石",
+  exalted: "崇高石",
+  regal: "富豪石",
+  vaal: "瓦爾寶珠",
+  alch: "點金石",
+  annul: "殲滅石",
+  aug: "增量石",
+  transmute: "蛻變石",
+  chance: "機運石",
+  mirror: "卡蘭德的魔鏡",
+  bauble: "玻璃匠的氣泡瓶",
+  gcp: "寶石匠的稜鏡",
+  whetstone: "鐵匠的磨刀石",
+  scrap: "護甲匠的廢料",
+  wisdom: "知識卷軸",
+  artificers: "工匠寶珠",
+  "artificers-shard": "工匠碎片",
+  "regal-shard": "富豪碎片",
+  "transmutation-shard": "蛻變碎片",
+  "chance-shard": "機運碎片",
+  "architects-orb": "建築師寶珠",
+  "fracturing-orb": "割裂石",
+  "orb-of-extraction": "萃取石",
+  "hinekoras-lock": "希內可拉之鎖",
+  "cryptic-key": "神秘鑰匙",
+  "ancient-infuser": "遠古灌注器",
+  "core-destabiliser": "核心擾亂器",
+  "crystallised-corruption": "結晶汙染",
+  etcher: "秘術師的蝕刻器",
+  "greater-chaos-orb": "高階混沌石",
+  "greater-exalted-orb": "高階崇高石",
+  "greater-regal-orb": "高階富豪石",
+  "greater-jewellers-orb": "高階珠寶匠寶珠",
+  "lesser-jewellers-orb": "初階珠寶匠寶珠",
+  "perfect-jewellers-orb": "完美珠寶匠寶珠",
+  "greater-orb-of-augmentation": "高階增量石",
+  "greater-orb-of-transmutation": "高階蛻變石",
+  "perfect-chaos-orb": "完美混沌石",
+  "perfect-exalted-orb": "完美崇高石",
+  "perfect-regal-orb": "完美富豪石",
+  "perfect-orb-of-augmentation": "完美增量石",
+  "perfect-orb-of-transmutation": "完美蛻變石",
+  "vaal-arcanists-infuser": "瓦爾秘術師灌注器",
+  "vaal-armourers-infuser": "瓦爾護甲匠灌注器",
+  "vaal-blacksmiths-infuser": "瓦爾鐵匠灌注器",
+  "vaal-catalysing-infuser": "瓦爾催化灌注器",
+  "vaal-cultivation-orb": "瓦爾培養寶珠",
+  "vaal-siphoner": "瓦爾抽取器",
+};
+
+// 回傳「中文 (English)」；查無中文時只顯示英文
+function labelOf(cur) {
+  const zh = ZH[cur.id];
+  return zh ? `${zh} (${cur.name})` : cur.name;
+}
+
 // ---------- 數字格式 ----------
 function fmt(n, max = 2) {
   if (n == null || !isFinite(n)) return "—";
@@ -192,7 +252,7 @@ function currencyOptions(selectedId) {
   return state.data.currencies
     .map(
       (c) =>
-        `<option value="${c.id}" ${c.id === selectedId ? "selected" : ""}>${c.name}</option>`
+        `<option value="${c.id}" ${c.id === selectedId ? "selected" : ""}>${labelOf(c)}</option>`
     )
     .join("");
 }
