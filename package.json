@@ -1,0 +1,17 @@
+{
+  "name": "poe2-divine-compare",
+  "version": "1.0.0",
+  "description": "POE2 Divine Orb 通貨比價 — 對齊 poe.ninja 即時匯率，找出用哪種石頭買神聖石最划算",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

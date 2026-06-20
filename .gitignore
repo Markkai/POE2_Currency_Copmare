@@ -1,0 +1,9 @@
+node_modules/
+npm-debug.log*
+.env
+# 探勘 poe.ninja API 時留下的暫存檔
+page.html
+bundle.js
+data.json
+resp.json
+nul

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POE2 神聖石比價 · Divine Orb Compare</title>
+    <meta
+      name="description"
+      content="對齊 poe.ninja 即時匯率，找出用哪種通貨石頭買神聖石(Divine Orb)最划算。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">◆</span>
+        <div>
+          <h1>POE2 神聖石比價</h1>
+          <p class="subtitle">用哪種石頭買 <b>神聖石 Divine Orb</b> 最划算 · 即時對齊 poe.ninja</p>
+        </div>
+      </div>
+      <div class="controls">
+        <label>
+          聯盟
+          <select id="league">
+            <option value="Runes of Aldur" selected>Runes of Aldur</option>
+            <option value="HC Runes of Aldur">HC Runes of Aldur</option>
+            <option value="Standard">Standard</option>
+            <option value="Hardcore">Hardcore</option>
+          </select>
+        </label>
+        <label class="auto">
+          <input type="checkbox" id="autoRefresh" checked />
+          自動更新
+        </label>
+        <button id="refresh">↻ 立即更新</button>
+      </div>
+    </header>
+
+    <p id="status" class="status"></p>
+
+    <!-- 最划算買法重點卡 -->
+    <section class="hero">
+      <h2>💰 現在最划算的買法</h2>
+      <div id="bestRoutes" class="routes">
+        <div class="skeleton">載入中…</div>
+      </div>
+      <p class="note" id="heroNote"></p>
+    </section>
+
+    <!-- 價格看板 -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>📊 神聖石價格看板</h2>
+        <input
+          type="search"
+          id="search"
+          placeholder="搜尋通貨名稱…"
+          autocomplete="off"
+        />
+      </div>
+      <div class="table-wrap">
+        <table id="board">
+          <thead>
+            <tr>
+              <th>通貨石頭</th>
+              <th class="num">買 1 神聖石需要</th>
+              <th class="num">單價（神聖石）</th>
+              <th class="num">≈ 崇高石</th>
+              <th class="num">≈ 混沌石</th>
+              <th class="num">7 日趨勢</th>
+              <th class="num">市場流動性</th>
+              <th>最深交易配對</th>
+            </tr>
+          </thead>
+          <tbody id="boardBody"></tbody>
+        </table>
+      </div>
+      <p class="legend">
+        <span class="tag good">流動性高</span> = 市場深、價差小、實際成本最低；
+        <span class="tag warn">流動性低</span> = 掛單少，實際換到的價格可能比牌價差。
+      </p>
+    </section>
+
+    <!-- 庫存換算器 -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>🧮 我的庫存換算器</h2>
+        <button id="addRow" class="ghost">+ 新增一列</button>
+      </div>
+      <p class="hint">輸入你手上有的石頭數量，算出總共值多少神聖石、以及哪種最適合拿去換。</p>
+      <div class="table-wrap">
+        <table id="calc">
+          <thead>
+            <tr>
+              <th>通貨石頭</th>
+              <th class="num">數量</th>
+              <th class="num">單價（神聖石）</th>
+              <th class="num">小計（神聖石）</th>
+              <th class="num">佔比</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="calcBody"></tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" class="num strong">合計</td>
+              <td class="num strong" id="calcTotal">0</td>
+              <td colspan="2"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div id="calcResult" class="calc-result"></div>
+    </section>
+
+    <footer class="foot">
+      資料來源：<a href="https://poe.ninja/poe2/economy/runesofaldur/currency" target="_blank" rel="noopener">poe.ninja</a>
+      · 本站僅作比價參考，實際成交以遊戲內市場為準 · 牌價約每分鐘更新一次
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
